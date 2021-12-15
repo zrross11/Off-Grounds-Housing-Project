@@ -1,0 +1,49 @@
+{% load bootstrap5 %} {% bootstrap_css %}
+<style>
+    #card:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+</style>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>OGH Listing</title>
+</head>
+
+<body style="background-color: aliceblue; width: 100%; height: 100%;">
+    {% include "components/housing_navigation_bar.html" %}
+    {% if housing_list %}
+    <ul class="list-group-flush" style="display: inline;">
+        {% for option in housing_list %}
+        <li style="list-style-type: none; float: left; padding: 5px;">
+            <div class="card" style="width: 20vw; min-width: 15rem; max-width: 22rem;" id="card">
+                <a href={{option.id}} style="text-decoration: none; color: black;">
+                    <img class="card-img-top" src="{{option.pic}}" alt="Card image cap" width="200" height="300">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ option.name }}</h5>
+                        <p style="margin: .5;">{{ option.address }}</p>
+                        <p style="margin: .5;">{{ option.numberOfBedrooms }} Beds | ${{ option.pricePerUnit }}/month</p>
+                        <div style="padding-top: 10px; display:flex; justify-content: space-evenly;">
+                            {% if user.is_superuser %}
+                            <a class="btn btn-danger" href="./delete/{{ option.id }}">Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </a>
+            </div>
+            </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <h3 style="text-align: center;">No housing options are available.</h3>
+    {% endif %}
+    {% include "components/housing_footer.html" %}
+</body>
+
+</html>

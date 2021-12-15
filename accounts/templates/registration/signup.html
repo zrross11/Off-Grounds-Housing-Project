@@ -1,0 +1,25 @@
+<!-- templates/registration/signup.html -->
+
+<!-- Bootstrap Libraries -->
+{% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+  </head>
+  <body style="background-color: aliceblue; width: 100%; height: 100%">
+    <h3 style="margin-left: 1rem"><a href ="../../housing" style="text-decoration: none;">B-05 Off Ground Housing</a></h3>
+    <div class="text-center">
+        <div style="display: inline-block; text-align: left;">
+            <h1 style="margin-bottom: 2.5rem">Sign Up Page</h1>
+            <form method="post" style="list-style: none">
+              {% csrf_token %} {{ form.as_p }}
+              <button class="btn btn-primary" type="submit">Sign Up</button>
+              <buttom class="btn btn-secondary""><a href="../login" style="text-decoration: none; color: white;">Back</a></buttom>
+            </form>
+        </div>
+    </div>
+  </body>
+</html>

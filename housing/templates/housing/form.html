@@ -1,0 +1,21 @@
+{% load bootstrap5 %} {% bootstrap_css %}
+
+<html>
+  <body style="background-color: aliceblue">
+    {% include "components/housing_navigation_bar.html" %}
+    <div style="text-align: center">
+      <h1>Housing Input Form</h1>
+      <form action="" method="post">
+        {% csrf_token %} {% for field in form %}
+        <div class="form-group">
+          <label style="padding: 10">{{ field.label_tag }} </label>
+          {{field}}
+        </div>
+        {% endfor %}
+        <button type="submit" value="Save" class="btn btn-dark">Submit</button>
+        <a class="btn btn-outline-primary" href="/housing">Back</a>
+      </form>
+    </div>
+    {% include "components/housing_footer.html" %}
+  </body>
+</html>

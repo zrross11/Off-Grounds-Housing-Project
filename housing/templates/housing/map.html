@@ -1,0 +1,133 @@
+{% load bootstrap5 %} {% bootstrap_css %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>OGH Mapping</title>
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+  </head>
+  <!-- Main -->
+  <body style="background-color: aliceblue; margin: 0 auto">
+    {% include "components/housing_navigation_bar.html" %} {% if housing_map %}
+    <h1 style="padding-left: 2%">OGH Map</h1>
+    <div
+      id="map"
+      style="width: 75%; height: 75%; margin-left: auto; margin-right: auto"
+    ></div>
+    <!--    maybe this shouldn't be hardcoded-->
+    <script>
+      mapboxgl.accessToken =
+        "pk.eyJ1Ijoic29waGllbWV5ZXIiLCJhIjoiY2t2azF5enJ5NXBldjJxbXNrbnNtaDB5diJ9.acEfnorHc73TUHoIG5r04w";
+      var map = new mapboxgl.Map({
+       container: 'map',
+       style: 'mapbox://styles/mapbox/streets-v10',
+       center: [-78.507216, 38.033530],
+       zoom: 12
+
+      });
+
+      // make feature description array
+      var test = 0;
+      //<!--      for (let i = 0; i < housing_map.length; i++) {-->
+      //for (let i = 0; i < 2; i++) {
+      //nothing yet
+      //  test++;
+      //}
+      //make feature coordinates array
+      map.on("load", () => {
+        map.addSource("places", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [
+              {
+                'type': 'Feature',
+                'properties': {
+                  'description':
+                    '<a href="http://www.u-apts.com/property.cfm?id=4825" target="_blank" title="Opens in a new window"><strong>University Apartments</strong></a><p>1029 Wertland Street',
+                    'icon': 'star-15'
+                },
+                'geometry': {
+                  'type': 'Point',
+                   'coordinates': [-78.495470, 38.035250]
+                }
+              },
+              {
+                'type': 'Feature',
+                'properties': {
+                  'description':
+                    '<a href="https://www.grandmarcuva.com/charlottesville/grandmarc-at-the-corner/floorplans/2x2-private-bed-bath-786961/fp_name/occupancy_type/student/lease_term[id]/8402/space_configuration_id/2/lease_start_window[id]/5756/" target="_blank" title="Opens in a new window"><strong>Grandmarc</strong></a><p>301 15th Street NW',
+                    'icon': 'star-15'
+                },
+                'geometry': {
+                  'type': 'Point',
+                   'coordinates': [-78.499630, 38.036810]
+                }
+              },
+              {
+                'type': 'Feature',
+                'properties': {
+                  'description':
+                    '<a href="http://www.u-apts.com/details.cfm?config=7762" title="Opens in a new window"><strong>1910 JPA</strong></a><p>1910 Jefferson Park Ave',
+                    'icon': 'star-15'
+                },
+                'geometry': {
+                  'type': 'Point',
+                   'coordinates': [-78.512000, 38.026720]
+                }
+              }
+            ]
+          }
+
+        });
+        map.addLayer({
+          id: "places",
+          type: "symbol",
+          source: "places",
+          layout: {
+            "icon-image": "{icon}",
+            "icon-allow-overlap": true,
+          },
+        });
+        map.on("click", "places", (e) => {
+          const coordinates = e.features[0].geometry.coordinates.slice();
+          const description = e.features[0].properties.description;
+
+          while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+            coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+          }
+
+          new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        });
+
+        map.on("mouseenter", "places", () => {
+          map.getCanvas().style.cursor = "pointer";
+        });
+
+        map.on("mouseleave", "places", () => {
+          map.getCanvas().style.cursor = "";
+        });
+      });
+    </script>
+    {% else %}
+    <p>No housing options are available.</p>
+    {% endif %} {% include "components/housing_footer.html" %}
+  </body>
+</html>
+
+<!--    <ul class="list-group-flush">-->
+<!--      {% for option in housing_map %}-->
+<!--      <li>Name: {{ option.name }}</li>-->
+<!--      <li>Address: {{ option.address }}</li>-->
+<!--      <br />-->
+<!--      {% endfor %}-->
+<!--    </ul>-->

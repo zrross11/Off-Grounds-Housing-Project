@@ -1,0 +1,21 @@
+# IDE Files
+.idea/
+.vscode/
+
+# DS Store File
+.DS_Store
+
+# PyCharm Files
+__pycache__/*
+oghb05/__pycache__/*
+housing/__pycache__/
+housing/migrations/__pycache__/
+
+# Notes - cjm9vr
+personal_notes.txt
+
+# Database
+ db.sqlite3
+
+# Bash Scripts
+runVirtual.sh

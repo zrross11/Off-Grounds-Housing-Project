@@ -1,0 +1,42 @@
+<!-- Bootstrap Libraries -->
+{% load bootstrap5 %} {% bootstrap_css %} {% bootstrap_javascript %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Profile Page</title>
+  </head>
+  <body style="background-color: aliceblue">
+    {% include "components/navigation_bar.html" %} {% if user.is_authenticated%}
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        align-content: center;
+        min-height: 60%;
+      "
+    >
+      <div class="card" style="width: 25rem">
+        <div class="card-body">
+          {% if user.first_name == None %}
+          <h3 class="card-title" style="text-align: center">
+            {{user.username}}
+          </h3>
+          {% else %}
+          <h3 class="card-title">{{user.first_name}} {{user.last_name}}</h3>
+          {% endif %}
+          <h5 class="card-subtitle mb-2 text-muted">
+            {% if user.is_staff%} ADMIN {%else%} USER {% endif %}
+          </h5>
+          <h6>Date Joined: {{user.date_joined}}</h6>
+          <h6>Email: {{user.email}}</h6>
+        </div>
+      </div> 
+    </div>
+    {% else %}
+    <meta http-equiv="refresh" content="0; url = ./login" />
+    {% endif %}
+  </body>
+</html>
